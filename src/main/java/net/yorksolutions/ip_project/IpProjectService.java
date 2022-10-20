@@ -7,8 +7,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 
@@ -24,44 +28,68 @@ public class IpProjectService {
             ip = InetAddress.getLocalHost();
             ipAddress = ip.getHostAddress();
         } catch (UnknownHostException err) {
-            err.printStackTrace();;
+            err.printStackTrace();
+            ;
         }
     }
+
     public HashMap ipGet() {
         HashMap ipReturn = new HashMap();
-        ipReturn.put("id",ipAddress);
+        ipReturn.put("id", ipAddress);
         return ipReturn;
     }
-//    public HashMap httpHeaders() {
-//        HashMap<String, String> map = new HashMap<String,String>();
-//        HttpHeaders httpRequest = new HttpHeaders();
-//        for (Enumeration<?> names = request.getHeaderNames(); names.hasMoreElements(); ) {
-//            String name = (String) names.nextElement();
-//            for (Enumeration<?> values = request.getHeaders(name); values.hasMoreElements(); ) {
-//                headers.add(name, (String) values.nextElement());
-//            }
-//        }
-//
-//
-//
-//        return map;
-//    }
-//    public String dateTime() {
-//        HashMap map = new HashMap();
-//        LocalDate myDate = LocalDate.now();
-//        LocalTime myTime = LocalTime.now();
-//
-//        System.out.println("Date: " + myDate + " : TIME: " + myTime);
-//        String asnswer = "Date: " + myDate + " : TIME: " + myTim;
-//        return
-//
-//    }
 
-    public HashMap showIP() {
-        HashMap map = new HashMap();
-        String output = "({\"ip\": \"" + ipAddress+"\"});";
-        map.put("showIP:",output);
+
+    public HashMap headers(HttpServletRequest request) {
+        HashMap<String, String> map = new HashMap<String, String>();
+        Enumeration headernNames = request.getHeaderNames();
+        while(headernNames.hasMoreElements()) {
+            String key = (String) headernNames.nextElement();
+            String value = request.getHeader(key);
+            map.put(key,value);
+        }
         return map;
     }
 
+    public HashMap dateTime() {
+        HashMap map = new HashMap();
+        LocalDate date = LocalDate.now();
+        LocalTime time = LocalTime.now();
+        Date date1 = new Date();
+
+        int hour = time.getHour();
+        map.put("date",date);
+        if (hour > 12) {
+            hour = hour - 12;
+            String timeReturn = String.valueOf(hour);
+            timeReturn += ":";
+            timeReturn += String.valueOf(time.getMinute());
+            timeReturn += ":";
+            timeReturn += String.valueOf(time.getSecond());
+            timeReturn += " PM";
+            map.put("time",timeReturn);
+            return map;
+        }
+
+        long mill = System.currentTimeMillis();
+        map.put("milliseconds_since_epoch", mill);
+        String timeReturn = String.valueOf(hour);
+        timeReturn += ":";
+        timeReturn += String.valueOf(time.getMinute());
+        timeReturn += ":";
+        timeReturn += String.valueOf(time.getSecond());
+        timeReturn += " AM";
+        map.put("time",timeReturn);
+        return map;
+    }
+
+    public HashMap echo() {
+
+
+    }
+
+
 }
+
+
+

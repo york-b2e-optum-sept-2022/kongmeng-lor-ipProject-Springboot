@@ -3,6 +3,7 @@ package net.yorksolutions.ip_project;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 
 @RestController
@@ -19,18 +20,33 @@ public class IpProjectController {
     public HashMap ipGet() {
         return ipService.ipGet();
     }
-//    @GetMapping("headers")
-//    public HashMap headers() {
-//        return ipService.httpHeaders();
-//    }
 
-//    @GetMapping("/dateTime")
-//    public String dateTime() {
-//        return ipService.dateTime();
-//    }
-    @GetMapping("/showIP")
-    public HashMap showIP() {
-        return ipService.showIP();
+    @GetMapping("/headers")
+    public HashMap headers (HttpServletRequest request) {
+        return ipService.headers(request);
     }
+    @GetMapping("/dateTime")
+    public HashMap dateTime() {
+        return ipService.dateTime();
+    }
+    @GetMapping("/echo")
+    public HashMap echo() {
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }
