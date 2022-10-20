@@ -19,9 +19,18 @@ public class IpProjectController {
     public HashMap ipGet() {
         return ipService.ipGet();
     }
-    @GetMapping("headers")
-    public HashMap headers() {
-        return ipService.httpHeaders();
+//    @GetMapping("headers")
+//    public HashMap headers() {
+//        return ipService.httpHeaders();
+//    }
+
+//    @GetMapping("/dateTime")
+//    public String dateTime() {
+//        return ipService.dateTime();
+//    }
+    @GetMapping("/showIP")
+    public HashMap showIP() {
+        return ipService.showIP();
     }
 
 }
