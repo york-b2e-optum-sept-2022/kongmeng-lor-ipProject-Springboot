@@ -1,6 +1,8 @@
 package net.yorksolutions.ip_project;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,10 +31,11 @@ public class IpProjectController {
     public HashMap dateTime() {
         return ipService.dateTime();
     }
-    @GetMapping("/echo")
-    public HashMap echo() {
-
+    @GetMapping("/echo/{value}/{key}")
+    public HashMap echo(@PathVariable HashMap input) {
+        return input;
     }
+
 
 
 

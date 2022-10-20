@@ -83,10 +83,6 @@ public class IpProjectService {
         return map;
     }
 
-    public HashMap echo() {
-
-
-    }
 
 
 }
