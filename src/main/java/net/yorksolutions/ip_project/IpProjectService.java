@@ -1,13 +1,17 @@
 package net.yorksolutions.ip_project;
 import org.springframework.stereotype.Service;
+
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.stream.Collectors;
 
 @Service
 public class IpProjectService {
@@ -33,6 +37,7 @@ public class IpProjectService {
 
 
     public HashMap headers(HttpServletRequest request) {
+
         HashMap<String, String> map = new HashMap<String, String>();
         Enumeration headernNames = request.getHeaderNames();
         while(headernNames.hasMoreElements()) {
@@ -103,9 +108,16 @@ public class IpProjectService {
     public String callback() {
         return "showIP({\"IP\": \"" +ipAddress+ "\"});";
     }
+    public HashMap cookie(HttpServletRequest request) {
+        HashMap map = new HashMap();
+        Cookie cookies[] = request.getCookies();
 
-
-
+        for (int i = 0; i < cookies.length; i++) {
+            String cookiesReturn = cookies[i].getName();
+            map.put("cookie_status", cookiesReturn);
+        }
+        return map;
+    }
 
 }
 

@@ -42,8 +42,10 @@ public class IpProjectController {
     public String callback() {
         return this.ipService.callback();
     }
-
-
+    @GetMapping("/cookie")
+    public HashMap cookie(HttpServletRequest request) {
+        return this.ipService.cookie(request);
+    }
 
 
 
