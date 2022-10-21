@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 
 @RestController
@@ -43,9 +44,11 @@ public class IpProjectController {
         return this.ipService.callback();
     }
     @GetMapping("/cookie")
-    public HashMap cookie(HttpServletRequest request) {
-        return this.ipService.cookie(request);
+    public HashMap cookie(HttpServletResponse response, HttpServletRequest request) {
+        return this.ipService.cookie(response,request);
     }
+//    @GetMapping("/md5/text={id}")
+//    public HashMap md5()
 
 
 

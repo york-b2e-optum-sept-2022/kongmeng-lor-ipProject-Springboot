@@ -3,6 +3,7 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.time.LocalDate;
@@ -108,16 +109,21 @@ public class IpProjectService {
     public String callback() {
         return "showIP({\"IP\": \"" +ipAddress+ "\"});";
     }
-    public HashMap cookie(HttpServletRequest request) {
+    public HashMap cookie(HttpServletResponse response, HttpServletRequest request) {
         HashMap map = new HashMap();
-        Cookie cookies[] = request.getCookies();
+        long mil = System.currentTimeMillis();
+        String value = String.valueOf(mil);
+        Cookie cookie = new Cookie("jsontestdotcom",value);
+        response.addCookie(cookie);
 
+        Cookie cookies[] = request.getCookies();
         for (int i = 0; i < cookies.length; i++) {
             String cookiesReturn = cookies[i].getName();
             map.put("cookie_status", cookiesReturn);
         }
         return map;
     }
+
 
 }
 
