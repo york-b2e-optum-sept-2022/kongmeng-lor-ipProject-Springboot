@@ -4,8 +4,10 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.math.BigInteger;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.security.MessageDigest;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Arrays;
@@ -122,6 +124,25 @@ public class IpProjectService {
             map.put("cookie_status", cookiesReturn);
         }
         return map;
+    }
+    public HashMap md5(String id) {
+        try {
+            HashMap map = new HashMap();
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            byte[] messageDigest = md.digest(id.getBytes());
+
+            BigInteger no = new BigInteger(1, messageDigest);
+            String hashText = no.toString(16);
+            while (hashText.length() < 32) {
+                hashText = "0" + hashText;
+            }
+            map.put("original", id);
+            map.put("md5", hashText);
+            hashText = "";
+            return map;
+        } catch (Exception err) {
+            throw new RuntimeException(err);
+        }
     }
 
 

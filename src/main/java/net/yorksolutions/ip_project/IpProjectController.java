@@ -47,8 +47,14 @@ public class IpProjectController {
     public HashMap cookie(HttpServletResponse response, HttpServletRequest request) {
         return this.ipService.cookie(response,request);
     }
-//    @GetMapping("/md5/text={id}")
-//    public HashMap md5()
+    @GetMapping("/md5/text={id}")
+    public HashMap md5(@PathVariable String id) {
+        return this.ipService.md5(id);
+    }
+    @GetMapping("/validate/{id}")
+    public HashMap validate(@PathVariable String id) {
+
+    }
 
 
 
