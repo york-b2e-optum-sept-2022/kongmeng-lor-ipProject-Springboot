@@ -1,15 +1,8 @@
 package net.yorksolutions.ip_project;
-
-import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
-
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Date;
@@ -32,7 +25,6 @@ public class IpProjectService {
             ;
         }
     }
-
     public HashMap ipGet() {
         HashMap ipReturn = new HashMap();
         ipReturn.put("id", ipAddress);
@@ -59,29 +51,59 @@ public class IpProjectService {
 
         int hour = time.getHour();
         map.put("date",date);
-        if (hour > 12) {
-            hour = hour - 12;
-            String timeReturn = String.valueOf(hour);
-            timeReturn += ":";
-            timeReturn += String.valueOf(time.getMinute());
-            timeReturn += ":";
-            timeReturn += String.valueOf(time.getSecond());
-            timeReturn += " PM";
-            map.put("time",timeReturn);
-            return map;
-        }
-
         long mill = System.currentTimeMillis();
         map.put("milliseconds_since_epoch", mill);
+        if (hour > 12) {
+
+            hour = hour - 12;
+            String timeReturn = String.valueOf(hour);
+
+            timeReturn += ":";
+            timeReturn += String.valueOf(time.getMinute());
+
+            timeReturn += ":";
+            timeReturn += String.valueOf(time.getSecond());
+
+            timeReturn += " PM";
+            map.put("time",timeReturn);
+
+            return map;
+        }
         String timeReturn = String.valueOf(hour);
         timeReturn += ":";
         timeReturn += String.valueOf(time.getMinute());
         timeReturn += ":";
         timeReturn += String.valueOf(time.getSecond());
         timeReturn += " AM";
+
         map.put("time",timeReturn);
         return map;
     }
+    public HashMap echo(HttpServletRequest request) {
+        String url = request.getRequestURI();
+        String[] lists = url.split("/");
+
+        HashMap map = new HashMap();
+        int count = 2;
+        while (count < lists.length) {
+            String key = lists[count];
+
+            String value = "";
+            int valueIndex = count + 1;
+            if (valueIndex < lists.length) {
+                value = lists[valueIndex];
+            }
+            map.put(key, value);
+        }
+        return map;
+    }
+    public String code() {
+        return "alert(\"Your IP address is: " + ipAddress + "\"):";
+    }
+    public String callback() {
+        return "showIP({\"IP\": \"" +ipAddress+ "\"});";
+    }
+
 
 
 

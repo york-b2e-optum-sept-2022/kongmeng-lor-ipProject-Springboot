@@ -22,20 +22,26 @@ public class IpProjectController {
     public HashMap ipGet() {
         return ipService.ipGet();
     }
-
     @GetMapping("/headers")
     public HashMap headers (HttpServletRequest request) {
         return ipService.headers(request);
     }
-    @GetMapping("/dateTime")
+    @GetMapping({"/date","/time"})
     public HashMap dateTime() {
         return ipService.dateTime();
     }
-    @GetMapping("/echo/{value}/{key}")
-    public HashMap echo(@PathVariable HashMap input) {
-        return input;
+    @GetMapping("/echo/**")
+    public HashMap echo(HttpServletRequest request) {
+        return this.ipService.echo(request);
     }
-
+    @GetMapping("/code")
+    public String code() {
+        return this.ipService.code();
+    }
+    @GetMapping("/callbacks")
+    public String callback() {
+        return this.ipService.callback();
+    }
 
 
 
