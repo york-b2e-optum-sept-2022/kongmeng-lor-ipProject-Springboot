@@ -8,13 +8,15 @@ import java.math.BigInteger;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.security.MessageDigest;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.stream.Collectors;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 @Service
 public class IpProjectService {
@@ -142,6 +144,67 @@ public class IpProjectService {
             return map;
         } catch (Exception err) {
             throw new RuntimeException(err);
+        }
+    }
+
+    public HashMap validate(String jsonString) {
+        try {
+            boolean isArray = jsonString.charAt(0) == '[';
+
+            int length;
+            var startTime = Instant.now().getNano();
+            if (isArray) {
+                JSONArray array = new JSONArray(jsonString);
+                length = array.length();
+
+            } else {
+                JSONObject obj = new JSONObject(jsonString);
+                length = obj.length();
+            }
+            var endTime = Instant.now().getNano();
+
+
+            HashMap map = new HashMap();
+            map.put(
+                    "object_or_array",
+                    isArray ? "array" : "object"
+            );
+            map.put(
+                    "validate",
+                    true
+            );
+            map.put(
+                    "parse_time_nanoseconds",
+                    endTime - startTime
+            );
+            map.put(
+                    "size",
+                    length
+            );
+            map.put(
+                    "empty",
+                    length > 0 ? false : true
+            );
+            return map;
+        } catch (JSONException exception) {
+            HashMap map = new HashMap();
+            map.put(
+                    "validate",
+                    false
+            );
+            map.put(
+                    "error",
+                    exception.getMessage()
+            );
+            map.put(
+                    "object_or_array",
+                    jsonString.charAt(0) == '[' ? "array" : "object"
+            );
+            map.put(
+                    "error_info",
+                    "This error came from the " + exception.getClass()
+            );
+            return map;
         }
     }
 

@@ -1,9 +1,6 @@
 package net.yorksolutions.ip_project;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -51,9 +48,9 @@ public class IpProjectController {
     public HashMap md5(@PathVariable String id) {
         return this.ipService.md5(id);
     }
-    @GetMapping("/validate/{id}")
-    public HashMap validate(@PathVariable String id) {
-
+    @GetMapping("/validate")
+    public HashMap validate(RequestParam String input) {
+        return this.ipService.validate(input);
     }
 
 
